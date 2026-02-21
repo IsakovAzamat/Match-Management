@@ -4,15 +4,13 @@ import com.example.mlbb.enums.SystemRole;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Table(name = "users")
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
@@ -33,7 +31,7 @@ public class User {
     private String password;
 
     @Column(nullable = false, unique = true)
-    private Integer mlbbId;
+    private String mlbbId;
 
     @Column(nullable = false)
     private SystemRole role = SystemRole.USER;

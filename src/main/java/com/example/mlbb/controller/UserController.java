@@ -1,16 +1,16 @@
 package com.example.mlbb.controller;
 
-import com.example.mlbb.dto.CreateUserRequest;
+import com.example.mlbb.dto.RegisterRequest;
 import com.example.mlbb.entity.User;
 import com.example.mlbb.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/user")
-@CrossOrigin(origins = "http://localhost:8080")
+@RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -18,12 +18,16 @@ public class UserController {
 
     @GetMapping
     public List<User> getUsers(){
-        return userService.getUser();
+        return userService.getAllUser();
     }
 
-
-    @PostMapping("/auth")
-    public User authUser(@RequestBody CreateUserRequest userRequest){
-        return userService.createUser(userRequest);
+    @PostMapping("/register")
+    public ResponseEntity<String> register(@RequestBody RegisterRequest request) {
+        try {
+            userService.registerUser(request);
+            return ResponseEntity.ok("Регистрация прошла успешно!");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }
